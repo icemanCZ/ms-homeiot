@@ -1,0 +1,45 @@
+﻿@model HomeIOT.Web.Models.SensorViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h4>Sensor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Identificator)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Identificator)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Units)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Units)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+
+<div>
+    @await Component.InvokeAsync("SensorDataDetail", new { sensor = Model.SensorId })
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SensorId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

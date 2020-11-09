@@ -1,0 +1,47 @@
+﻿@model IEnumerable<HomeIOT.Web.Models.SensorDetailViewModel>
+
+<h3>Stav senzorů</h3>
+<div style="max-height:400px;overflow-y:auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SensorName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActualValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastConnection)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Trend)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.Units.GetIconPath()" title="@item.Units.GetText()" width="20" height="20" />
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.SensorName, "Detail", "Sensors", new { sensorId = item.SensorId })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualValue.Value)  @item.Units.GetText()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualValue.Timestamp)
+                    </td>
+                    <td>
+                        <img src="@item.Trend.GetIconPath()" title="@item.Trend.GetText()" width="20" height="20" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

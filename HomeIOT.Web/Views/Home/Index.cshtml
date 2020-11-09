@@ -1,0 +1,16 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div style="width:48%;float:left;height:450px">
+    @await Component.InvokeAsync("UnresolvedApplicationEvents")
+</div>
+<div style="width:48%;float:right;height:450px">
+    @await Component.InvokeAsync("SensorsOverview")
+</div>
+
+<hr style="clear:both">
+
+@await Component.InvokeAsync("FavoritedSensors")

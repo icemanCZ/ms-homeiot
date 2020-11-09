@@ -1,0 +1,57 @@
+﻿@model IEnumerable<HomeIOT.Web.Models.ApplicationEventViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Timestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SensorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resolved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResolvedTimestamp)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Timestamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SensorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Resolved)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResolvedTimestamp)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

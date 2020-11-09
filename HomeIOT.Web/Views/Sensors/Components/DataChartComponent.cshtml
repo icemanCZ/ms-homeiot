@@ -1,0 +1,111 @@
+﻿@model HomeIOT.Web.Models.ChartDataViewModel
+@{
+    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Data.Select(x => $"new Date({x.Timestamp.Year},{x.Timestamp.Month},{x.Timestamp.Day},{x.Timestamp.Hour},{x.Timestamp.Minute},{x.Timestamp.Second},{x.Timestamp.Millisecond})").ToList());
+    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Data.Select(x => x.Value).ToList());
+
+    //var data = Newtonsoft.Json.JsonConvert.SerializeObject(
+    //    Model.Data.Select(x =>
+    //    new {
+    //        x = $"new Date({x.Timestamp.Year},{x.Timestamp.Month},{x.Timestamp.Day},{x.Timestamp.Hour},{x.Timestamp.Minute},{x.Timestamp.Second},{x.Timestamp.Millisecond})",
+    //        //x = x.Timestamp,
+    //        y = x.Value})).Replace("\"", "");
+}
+
+<div id=@("dataChart" + Model.SensorId)>
+    <div class="chart-container">
+        <canvas id="@("chart" + @Model.SensorId)" style="width:100%; height:300px"></canvas>
+    </div>
+
+    <script type="text/javascript">
+    domReadyQueue.push(drawChart(@Model.SensorId));
+
+    function drawChart(sensorId) {
+        var chartName = "chart" + sensorId;
+        var ctx = document.getElementById(chartName).getContext('2d');
+
+            var data = {
+                labels: @Html.Raw(XLabels.Replace("\"", "")),
+                datasets: [{
+                    label: "@Html.Raw(Model.SensorName)",
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 0, 0)',
+                        'rgba(0, 255, 0)',
+                        'rgba(0, 0, 255)',
+                        'rgba(192, 192, 192)',
+                        'rgba(255, 255, 0)',
+                        'rgba(255, 0, 255)'
+                    ],
+                    borderWidth: 1,
+                    data: @Html.Raw(YValues)
+    }]
+            };
+
+            var options = {
+                maintainAspectRatio: false,
+                responsive: false,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: @(Math.Round(Model.Data.Any() ? (Model.Data.Min(x => x.Value) - 5) : 0)),
+                            max: @(Math.Round(Model.Data.Any() ? (Model.Data.Max(x => x.Value) + 5) : 100)),
+                        },
+                        gridLines: {
+                            display: true,
+                            color: "rgba(255,99,164,0.2)"
+                        }
+                    }],
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            displayFormats: {
+                                'millisecond': 'HH:MM',
+                                'second': 'HH:MM',
+                                'minute': 'HH:MM',
+                                'hour': 'HH:MM',
+                                'day': 'HH:MM',
+                                'week': 'HH:MM',
+                                'month': 'HH:MM',
+                                'quarter': 'HH:MM',
+                                'year': 'HH:MM',
+                            }
+                        },
+                        //distribution: 'series',
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+            var myChart = new Chart(ctx, {
+                options: options,
+                data: data,
+                type: 'line'
+
+            });
+    }
+    </script>
+</div>
